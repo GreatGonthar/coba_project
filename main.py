@@ -3,8 +3,7 @@ import sys
 from PyQt5.QtCore import Qt, QPoint, QBasicTimer, QSize
 from PyQt5.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget
 
-
-from pad import Pad 
+from pad import Pad, Aliens, Sd
 
 
 class ExampleWindow(QMainWindow):
@@ -13,14 +12,19 @@ class ExampleWindow(QMainWindow):
 		self.setMinimumSize(QSize(800, 600))
 		self.setWindowTitle('Пришельцы')
 		central_widget = QWidget(self)
+		self.alien_timer = QBasicTimer()
 		self.setCentralWidget(central_widget)
-		self.pad_l = Pad()
-		self.pad_obj = QtWidgets.QLabel(self)
+		self.sd = Sd(QtWidgets.QLabel(self), 'sd.png', 10, 550)
 
-	def pad_show(self):
-		#self.obj.setGeometry(QtCore.QRect(10, 10, 50, 50))
-		#self.obj.setPixmap(QtGui.QPixmap('pad.png'))	
-		self.pad_l.init(self.pad_obj,'pad.png', 50, 5)
+
+		self.pad_l = Pad(QtWidgets.QLabel(self), 'pad.png', 10, 550)
+	
+		self.aliens_labl = []
+		for i in range(28):
+			self.aliens_labl.append(QtWidgets.QLabel(self))
+
+		self.al = Aliens(self.aliens_labl, 'alien.png')
+		self.alien_timer.start(100, self)	
 
 
 	def keyPressEvent(self, event):	
@@ -30,11 +34,15 @@ class ExampleWindow(QMainWindow):
 		if event.key() == QtCore.Qt.Key_A:
 			self.pad_l.move(-10)	
 		if event.key() == QtCore.Qt.Key_S:
-			pass
+			self.sd.move(self.pad_l.pad_x, self.pad_l.pad_y)
+			
+
+	def timerEvent(self, e):
+		self.al.tic()
+		self.sd.tic()
 
 
 app = QtWidgets.QApplication(sys.argv)
 main_window = ExampleWindow()
 main_window.show()	
-main_window.pad_show()
 sys.exit(app.exec_())
