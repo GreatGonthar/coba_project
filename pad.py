@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
+import time
 from PyQt5.QtCore import Qt, QPoint, QBasicTimer, QSize
 from PyQt5.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget
 
@@ -48,8 +49,10 @@ class Aliens():
 		self.alien_obj = alien_obj # в этом атрибуте будет список лэйб
 		self.aliens = []
 		self.a = len(self.alien_obj) #количество наших пришельцев
-		self.step = 10
+		self.diff_y = 1
+		self.step = 10 
 		self.window_width = 800
+		
 		
 		y = 10
 		for i in range(self.a):
@@ -74,19 +77,22 @@ class Aliens():
 			if(max_y<i.y+i.height):
 				max_y=i.y+i.height
 
-
-
 		diff_y=0	
 		if max_x >= self.window_width or min_x <= 0:
+			
+			diff_y = (self.step**2)**0.5
+			if self.step > 0:		
+				self.step += 1
+				diff_y += 1
+			else:
+				self.step -= 1	
 			self.step = -self.step
-			diff_y = 5
 
 		for i in self.aliens:
 			i.move(i.x+self.step, i.y+diff_y) 
-
-
-
-			
+			if i.y >= 550:
+				pass
+			print(self.step, diff_y)
 
 class Sd():
 	def __init__(self, QLabel, pic_name, x, y):
@@ -122,9 +128,10 @@ class Sd():
 	def shoot(self, hit):
 		for i in range(len(hit)):
 			if self.x+25 >= hit[i].x and self.x <= hit[i].x+40 and self.y <= hit[i].y+50 and self.y-30 >= hit[i].y:
-		
+				
 				#hit[i].obj.setPixmap(QtGui.QPixmap('pad.png'))
-				hit[i].obj.setPixmap(QtGui.QPixmap(None))
+				self.j = False		
+				hit[i].obj.setPixmap(QtGui.QPixmap(None))	
 				del hit[i]
 				return 
 
