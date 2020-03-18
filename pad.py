@@ -53,11 +53,11 @@ class Aliens():
 		
 		y = 10
 		for i in range(self.a):
-			b = i % 10	# создаем временную переменную которая не будет равна нулю, пока i не будет кратна 10
-			x = b * (50 + 10) # получаем координату по x наших пришельцев
+			b = i % 8	# создаем временную переменную которая не будет равна нулю, пока i не будет кратна 10
+			x = b * (50 + 30) # получаем координату по x наших пришельцев
 			if b == 0:
 				x = 1
-				y += 60	# если их больше десяти в ряду, то сдвигаем вниз по y		
+				y += 50	# если их больше десяти в ряду, то сдвигаем вниз по y		
 			self.aliens.append(Alien(self.alien_obj[i], pic_name ,x , y)) #добавляем в список четыре атрибута: лейбу, изображение, полученные координаты
 
 
@@ -67,21 +67,25 @@ class Aliens():
 		max_y = self.aliens[0].y+self.aliens[0].height
 
 		for i in self.aliens:
-			if(min_x>i.x):
+			if (min_x > i.x):
 				min_x=i.x
 			if(max_x<i.x+i.width):
 				max_x=i.x+i.width
 			if(max_y<i.y+i.height):
 				max_y=i.y+i.height
 
+
+
 		diff_y=0	
 		if max_x >= self.window_width or min_x <= 0:
 			self.step = -self.step
-			diff_y = 50
+			diff_y = 5
+
+		for i in self.aliens:
+			i.move(i.x+self.step, i.y+diff_y) 
 
 
-		#for i in self.aliens:
-		#	i.move(i.x+self.step,i.y+diff_y) 
+
 			
 
 class Sd():
@@ -113,13 +117,20 @@ class Sd():
 			self.j = False			
 		self.obj.move(self.x, self.y)
 
+	
+
 	def shoot(self, hit):
 		for i in range(len(hit)):
 			if self.x+25 >= hit[i].x and self.x <= hit[i].x+40 and self.y <= hit[i].y+50 and self.y-30 >= hit[i].y:
-				#print (self.y, hit[i].y)
-				hit[i].obj.setPixmap(QtGui.QPixmap('pad.png'))
-				hit[i].x = 0
-			print(hit[i].x)
+		
+				#hit[i].obj.setPixmap(QtGui.QPixmap('pad.png'))
+				hit[i].obj.setPixmap(QtGui.QPixmap(None))
+				del hit[i]
+				return 
+
+		
+
+				
 
 
 

@@ -16,9 +16,9 @@ class ExampleWindow(QMainWindow): #класс окна
 		self.setCentralWidget(central_widget)
 		self.sd = Sd(QtWidgets.QLabel(self), 'sd.png', 400, 550) #создаем экземпляр класса Sd с атрибутами (obj, pic_name, x, y) где obj? это лэйбл
 		self.pad_l = Pad(QtWidgets.QLabel(self), 'pad.png', 10, 550) #создаем экземпляр класса Pad с атрибутами (obj, pic_name, x, y) где obj? это лэйбл
-
+		self.numbers = 30
 		self.aliens_labl = [] # создаем список и заполняем его лейбами
-		for i in range(28):
+		for i in range(self.numbers):
 			self.aliens_labl.append(QtWidgets.QLabel(self))
 
 		self.al = Aliens(self.aliens_labl, 'alien.png') #создаем экземпляр класса Aliens с атрибутами списка состоящего из лейб
