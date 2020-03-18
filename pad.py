@@ -80,40 +80,46 @@ class Aliens():
 			diff_y = 50
 
 
-		for i in self.aliens:
-			i.move(i.x+self.step,i.y+diff_y) 
-			self.aliens[10].obj.setPixmap(QtGui.QPixmap('pad.png'))
+		#for i in self.aliens:
+		#	i.move(i.x+self.step,i.y+diff_y) 
+			
 
 class Sd():
 	def __init__(self, QLabel, pic_name, x, y):
-		self.width = 50 #размеры игрока
-		self.height = 50
+		self.width = 30
+		self.height = 30
 		#self.window_width = 800 #ширина окна
 		self.x = x #начальные координаты игрока
 		self.y = y
 		self.obj = QLabel #это наш объект (в данном случае лэйбл)
 		self.obj.setGeometry(QtCore.QRect(self.x, self.y, self.width, self.height))  # создаем объект на форме. с координатами
 		self.setPixel(pic_name) 	
-		self.j = False	
+		self.j = False	# временная переменная для события выстрела
 
 
 	def setPixel(self, pic_name):
-		self.obj.setPixmap(QtGui.QPixmap(pic_name).scaled(30, 30, Qt.KeepAspectRatio, Qt.FastTransformation))
+		self.obj.setPixmap(QtGui.QPixmap(pic_name).scaled(30, 30, Qt.KeepAspectRatio, Qt.FastTransformation)) # уменьшаем картинку
 
-	def move(self, x):	
-		if self.j == False:
-			self.x = x+10
-		self.j = True
+	def move(self):	
+		self.j = True # совершаем выстрел
 	
-	def tic(self, k):
-		if self.j == True: 
+	def tic(self, k, x, y): # k - это скорость полета выстрела
+		if self.j == True: # если выстрел совершен, двигаем sd по y
 			self.y = self.y - k
-			self.obj.move(self.x, self.y)
+		else:
+			self.x = x+10 # если нет, меняем координаты выстрела, на координаты игрока
+			self.y = y-10	
 		if self.y <= 0:
-			self.j = False
-			self.y = 550
-		
+			self.j = False			
+		self.obj.move(self.x, self.y)
 
+	def shoot(self, hit):
+		for i in range(len(hit)):
+			if self.x+25 >= hit[i].x and self.x <= hit[i].x+40 and self.y <= hit[i].y+50 and self.y-30 >= hit[i].y:
+				#print (self.y, hit[i].y)
+				hit[i].obj.setPixmap(QtGui.QPixmap('pad.png'))
+				hit[i].x = 0
+			print(hit[i].x)
 
 
 

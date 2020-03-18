@@ -32,11 +32,12 @@ class ExampleWindow(QMainWindow): #класс окна
 		if event.key() == QtCore.Qt.Key_A:
 			self.pad_l.move(-10)	
 		if event.key() == QtCore.Qt.Key_S:
-			self.sd.move(self.pad_l.x)
+			self.sd.move()
 
 	def timerEvent(self, e):
 		self.al.tic()
-		self.sd.tic(10)
+		self.sd.tic(10, self.pad_l.x, self.pad_l.y)
+		self.sd.shoot(self.al.aliens)
 
 
 
