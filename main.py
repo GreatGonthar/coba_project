@@ -1,12 +1,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 from PyQt5.QtCore import Qt, QPoint, QBasicTimer, QSize
-from PyQt5.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget
+from PyQt5.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget, QMessageBox
 
 from pad import Pad, Aliens, Sd
 
 
+app = QtWidgets.QApplication(sys.argv)
 class ExampleWindow(QMainWindow): #класс окна
+	
 	def __init__(self):
 		super().__init__()
 		self.setMinimumSize(QSize(800, 600))
@@ -34,14 +36,35 @@ class ExampleWindow(QMainWindow): #класс окна
 		if event.key() == QtCore.Qt.Key_S:
 			self.sd.move()
 
+	def dialogs(self):
+
+		if len(self.al.aliens) == 0:
+			self.gameover = QMessageBox.question(main_window, 'конец игры !!!!!!', 'победа \n попробовать снова?', QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+			if self.gameover == QMessageBox.Yes:					
+				self.al = Aliens(self.aliens_labl, 'alien.png')					
+			else:
+				sys.exit(app.exec_())
+		
+		if self.al.aliens[len(self.al.aliens)-1].y >= 550:
+			self.gameover = QMessageBox.question(main_window, 'конец игры !!!!!!', 'пришельцы нас захватили \n попробовать снова?', QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+			if self.gameover == QMessageBox.Yes:					
+				self.al = Aliens(self.aliens_labl, 'alien.png')					
+			else:
+				sys.exit(app.exec_())		
+
 	def timerEvent(self, e):
+		self.dialogs()
 		self.al.tic()
 		self.sd.tic(10, self.pad_l.x, self.pad_l.y)
 		self.sd.shoot(self.al.aliens)
+		
+	
 
 
+		
 
-app = QtWidgets.QApplication(sys.argv)
+
+#app = QtWidgets.QApplication(sys.argv)
 main_window = ExampleWindow()
 main_window.show()	
 sys.exit(app.exec_())
