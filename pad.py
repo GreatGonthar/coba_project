@@ -50,7 +50,7 @@ class Aliens():
 		self.aliens = []
 		self.a = len(self.alien_obj) #количество наших пришельцев
 
-		self.step = 1
+		self.step = 1 #скорость наших пришельцев
 		self.window_width = 800
 
 		
@@ -81,7 +81,11 @@ class Aliens():
 
 		diff_y=0	# временная переменная для сдвига по y
 		if max_x >= self.window_width or min_x <= 0: # условия при ударе об стены
-			diff_y += 10 # сдвигаем вниз по y 				
+			diff_y += 10 # сдвигаем вниз по y 	
+			if self.step > 0: # увеличиваем скорость с каждым сдвигом вниз
+				self.step += 1			
+			else:
+				self.step -= 1	
 			self.step = -self.step # и меняем направление движения
 
 		for i in self.aliens:

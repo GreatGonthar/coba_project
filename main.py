@@ -33,7 +33,7 @@ class ExampleWindow(QMainWindow): #класс окна
 			self.pad_l.move(10)	# запускаем экземпляр класса Pad, его метод move, с атрибутом pad_step равным 10 
 		if event.key() == QtCore.Qt.Key_A:
 			self.pad_l.move(-10)	
-		if event.key() == QtCore.Qt.Key_S:
+		if event.key() == QtCore.Qt.Key_S and self.sd.y == 540: # условие, чтобы не отстреливать всех пришельцев подряд
 			self.sd.move() # запускаем метод, в котором содержится только совершение выстрела
 
 	def dialogs(self): # метод диалоговых окон
