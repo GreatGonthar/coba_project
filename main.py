@@ -39,14 +39,14 @@ class ExampleWindow(QMainWindow): #класс окна
 	def dialogs(self): # метод диалоговых окон
 
 		if len(self.al.aliens) == 0: # если в списке пришельцев не осталось
-			self.gameover = QMessageBox.question(main_window, 'конец игры !!!!!!', 'победа \n попробовать снова?', QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+			self.gameover = QMessageBox.question(main_window, 'конец игры !!!!!!', 'Победа. \n Попробовать снова?', QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 			if self.gameover == QMessageBox.Yes:					
 				self.al = Aliens(self.aliens_labl, 'alien.png')	 # презапуск класса с пришельцами
 			else:
 				sys.exit(app.exec_())
 		
 		if self.al.aliens[len(self.al.aliens)-1].y >= 550: # если координаты по y последнего (в списке) прешельца больше чем 550
-			self.gameover = QMessageBox.question(main_window, 'конец игры !!!!!!', 'пришельцы нас захватили \n попробовать снова?', QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+			self.gameover = QMessageBox.question(main_window, 'конец игры !!!!!!', 'Пришельцы нас захватили. \n Попробовать снова?', QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 			if self.gameover == QMessageBox.Yes:					
 				self.al = Aliens(self.aliens_labl, 'alien.png')	# презапуск класса с пришельцами				
 			else:
